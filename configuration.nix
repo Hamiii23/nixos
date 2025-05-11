@@ -115,11 +115,15 @@
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+  #packages
     vim
     wget
-    neovim
     fastfetch
     curl
     git
@@ -127,17 +131,17 @@
     vscode
     brave
     nodejs
-    discord-ptb
+    discord
     tmux
     mpv
     vlc
     wl-clipboard
-    lua-language-server
     unzip
     go
     nixd
     postman
-    wezterm
+    ghostty
+    lua-language-server
   ];
 
 fonts.packages = with pkgs; [
