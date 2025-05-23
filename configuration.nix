@@ -114,6 +114,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  #flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # List packages installed in system profile. To search, run:
   programs.neovim = {
     enable = true;
@@ -155,9 +158,9 @@
 fonts.packages = with pkgs; [
   (nerdfonts.override {
     fonts = [
-      "FiraCode"          # Your main Alacritty font
-      "JetBrainsMono"     # Alternative fallback
-      "Hack"              # Another popular fallback
+      "FiraCode"
+      "JetBrainsMono"
+      "Hack"
       "SourceCodePro"
       "Iosevka"
       "CascadiaCode"
