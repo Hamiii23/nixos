@@ -142,6 +142,14 @@
     postman
     ghostty
     lua-language-server
+    python3
+    gcc
+    clang
+    clang-tools
+    cmake
+    ninja
+    gdb
+    yazi
   ];
 
 fonts.packages = with pkgs; [
@@ -152,6 +160,7 @@ fonts.packages = with pkgs; [
       "Hack"              # Another popular fallback
       "SourceCodePro"
       "Iosevka"
+      "CascadiaCode"
     ];
   })
   noto-fonts
