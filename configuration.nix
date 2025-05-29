@@ -16,8 +16,7 @@
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
-    useOSProber = true; # Optional: detects other OSes like Windows
-      device = "nodev";   # Required for EFI systems
+    device = "nodev";
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -102,6 +101,7 @@
     isNormalUser = true;
     description = "Hamid";
     extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.zsh;
     packages = with pkgs; [
       kdePackages.kate
       #  thunderbird
@@ -115,16 +115,52 @@
   nixpkgs.config.allowUnfree = true;
 
   #flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # List packages installed in system profile. To search, run:
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
+
+  #hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+    histFile = "$HOME/.zsh_history";
+    ohMyZsh = {
+      enable = true;
+      plugins = ["git" "dirhistory" "history"];
+      theme = "robbyrussell";
+    };
+  };
+  users.defaultUserShell = pkgs.zsh;
+
+  environment.sessionVariables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
+  };
+
+  services.dbus.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.common.default = "*";
+  };
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #packages
+    #packages
     vim
     wget
     fastfetch
@@ -153,23 +189,38 @@
     ninja
     gdb
     yazi
+    alejandra
+    stylua
+    kitty
+    waybar
+    rofi-wayland
+    dunst
+    libnotify
+    networkmanagerapplet
+    hyprpaper
+    wlogout
+    hyprlock
+    hypridle
+    xdg-utils
+    xdg-desktop-portal
+    tldr
   ];
 
-fonts.packages = with pkgs; [
-  (nerdfonts.override {
-    fonts = [
-      "FiraCode"
-      "JetBrainsMono"
-      "Hack"
-      "SourceCodePro"
-      "Iosevka"
-      "CascadiaCode"
-    ];
-  })
-  noto-fonts
-  noto-fonts-cjk-sans
-  noto-fonts-emoji
-];
+  fonts.packages = with pkgs; [
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "JetBrainsMono"
+        "Hack"
+        "SourceCodePro"
+        "Iosevka"
+        "CascadiaCode"
+      ];
+    })
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
